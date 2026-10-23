@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escape-Game Einkaufen – Niveau 4 – Lesen und Schreiben</title>
+<style>
+:root{--text:#1d1d1b;--bg:#fff;--box:#f5f5f2;--line:#9a9a94;--blue:#1f5fa8;--green:#2e7d32;--red:#c62828;--gold:#f2c94c;--fs:24px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Grundschrift,Andika,Arial,Helvetica,sans-serif;font-size:var(--fs);line-height:1.5}
+button,input{font:inherit;color:inherit}
+p,h1,h2{margin:.35em 0}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid var(--blue);outline-offset:4px}
+header{border-bottom:3px solid var(--line);padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.plan{display:flex;gap:8px;flex-wrap:wrap}
+.plan div{border:3px solid var(--line);border-radius:12px;padding:4px 12px;font-size:.7em;background:var(--bg);display:flex;gap:6px;align-items:center}
+.plan .now{border-color:var(--blue);background:#e7f0fb;font-weight:bold}
+.plan .done{background:var(--box);color:#555}
+.tools{display:flex;gap:8px}
+.tools button{min-width:64px;min-height:56px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.8em;padding:4px 10px}
+main{max-width:980px;margin:0 auto;padding:16px}
+.stand{font-size:.8em;margin:4px 0 12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.dots{display:flex;gap:8px}
+.dots span{width:24px;height:24px;border-radius:50%;border:3px solid var(--text)}
+.dots .full{background:var(--text)}
+.box{border:3px solid var(--text);border-radius:16px;padding:20px;margin:0 0 18px;background:var(--bg)}
+.box.grau{background:var(--box)}
+.frage{display:flex;gap:14px;align-items:flex-start}
+.frage p{margin:0;flex:1;font-weight:bold}
+.vor{min-width:64px;min-height:64px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.9em}
+.antw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px}
+.antw button{min-height:90px;border:3px solid var(--blue);border-radius:16px;background:var(--bg);padding:10px 14px;line-height:1.3}
+.antw button .emo{display:block;font-size:2em;line-height:1.2}
+.antw button:disabled{cursor:default;opacity:1}
+.antw button.ok{border:6px solid var(--green);background:#e7f4e8}
+.antw button.no{border:6px solid var(--red);background:#fbeaea}
+.antw button .zeichen{display:block;font-weight:bold;font-size:.8em}
+.meldung{min-height:1.6em;margin:14px 0 0;font-weight:bold}
+.code{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.code span{width:2.1em;height:2.1em;border:3px solid var(--text);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;background:var(--bg)}
+.code span.leer{border-style:dashed;color:#999}
+.unten{display:flex;justify-content:flex-end;margin-top:8px;min-height:84px}
+.gross{min-height:80px;min-width:220px;border:4px solid var(--text);border-radius:16px;background:var(--gold);font-weight:bold;padding:10px 26px}
+.kacheln{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.kacheln button{width:2.8em;height:2.8em;border:3px solid var(--blue);border-radius:14px;background:var(--bg);font-weight:bold;font-size:1.1em}
+.kacheln button:disabled{opacity:.3}
+input.wort{width:100%;max-width:420px;min-height:72px;border:3px solid var(--text);border-radius:12px;padding:6px 14px;text-transform:uppercase;letter-spacing:.2em}
+.reihe{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.mitte{text-align:center}
+.riesig{font-size:3em;line-height:1.2}
+.mittel{font-size:2em;line-height:1.2}
+.basal{width:100%;min-height:38vh;border:6px solid var(--text);border-radius:28px;background:var(--gold);font-size:1.3em;font-weight:bold}
+.zeige{min-height:2.4em;text-align:center}
+.zeige .riesig{animation:auf 1.6s ease-out}
+.pause{position:fixed;inset:0;background:#d9d9d6;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20}
+.pause.an{display:flex}
+.tuer{font-size:4em;display:inline-block;animation:tuer 1.4s ease-out}
+.konf{position:fixed;top:-20px;width:14px;height:14px;border-radius:3px;z-index:10;animation:fall 2.6s linear forwards}
+@keyframes auf{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes tuer{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes fall{to{transform:translateY(105vh) rotate(200deg);opacity:.6}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.konf{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="plan" id="plan"></div>
+<div class="tools"><button id="ton" type="button"></button><button id="pauseBtn" type="button">⏸ Pause</button></div>
+</header>
+<main id="app"></main>
+<div class="pause" id="pause"><p class="riesig">⏸</p><p><b>Pause</b></p><button class="gross" id="weiterPause" type="button">Weiter</button></div>
+<script>
+var LEVEL = 4;
+var START = ["Heute kaufen wir für das Klassenfrühstück ein.", "Der Supermarkt hat 3 Räume. Jede Tür hat ein Schloss.", "Löse die Aufgaben. Dann bekommst du den Code. Mit dem Code öffnest du die Tür."];
+var RAEUME = [
+ {
+  "titel": "Obst und Gemüse",
+  "emoji": "🍎",
+  "code": [
+   "B",
+   "I",
+   "R",
+   "N",
+   "E"
+  ],
+  "aufgaben": [
+   {
+    "frage": "Was ist ein Obst?",
+    "antworten": [
+     "Apfel",
+     "Gurke",
+     "Kartoffel",
+     "Möhre"
+    ]
+   },
+   {
+    "frage": "Was ist ein Gemüse?",
+    "antworten": [
+     "Paprika",
+     "Banane",
+     "Kirsche",
+     "Birne"
+    ]
+   },
+   {
+    "frage": "Ein Apfel kostet 50 Cent. Wie viel kosten 2 Äpfel?",
+    "antworten": [
+     "1 Euro",
+     "50 Cent",
+     "2 Euro",
+     "1,50 Euro"
+    ]
+   },
+   {
+    "frage": "Was machst du mit Obst vor dem Essen?",
+    "antworten": [
+     "Waschen",
+     "Kochen",
+     "Braten",
+     "Backen"
+    ]
+   },
+   {
+    "frage": "Wo liegen im Supermarkt die Bananen?",
+    "antworten": [
+     "Bei Obst und Gemüse",
+     "Bei den Getränken",
+     "Bei der Tiefkühlkost",
+     "Bei den Putzmitteln"
+    ]
+   }
+  ]
+ },
+ {
+  "titel": "Bäckerei",
+  "emoji": "🥖",
+  "code": [
+   "T",
+   "O",
+   "R",
+   "T",
+   "E"
+  ],
+  "aufgaben": [
+   {
+    "frage": "Was kaufst du in der Bäckerei?",
+    "antworten": [
+     "Brötchen",
+     "Wurst",
+     "Käse",
+     "Milch"
+    ]
+   },
+   {
+    "frage": "Wer verkauft dir in der Bäckerei das Brot?",
+    "antworten": [
+     "Die Verkäuferin",
+     "Die Ärztin",
+     "Die Friseurin",
+     "Die Malerin"
+    ]
+   },
+   {
+    "frage": "Ein Brot kostet 3 Euro. Du gibst 5 Euro. Wie viel bekommst du zurück?",
+    "antworten": [
+     "2 Euro",
+     "3 Euro",
+     "1 Euro",
+     "8 Euro"
+    ]
+   },
+   {
+    "frage": "Was sagst du höflich an der Theke?",
+    "antworten": [
+     "Ich hätte gern ein Brot.",
+     "Gib mir sofort ein Brot.",
+     "Brot her, aber schnell.",
+     "Ich nehme mir ein Brot."
+    ]
+   },
+   {
+    "frage": "Was schmeckt süß?",
+    "antworten": [
+     "Kuchen",
+     "Brezel",
+     "Vollkornbrot",
+     "Laugenstange"
+    ]
+   }
+  ]
+ },
+ {
+  "titel": "Kasse",
+  "emoji": "💶",
+  "code": [
+   "K",
+   "A",
+   "S",
+   "S",
+   "E"
+  ],
+  "aufgaben": [
+   {
+    "frage": "Wo bezahlst du im Supermarkt?",
+    "antworten": [
+     "An der Kasse",
+     "Am Eingang",
+     "Im Lager",
+     "Am Regal"
+    ]
+   },
+   {
+    "frage": "Was legst du an der Kasse auf das Band?",
+    "antworten": [
+     "Die Einkäufe",
+     "Die Jacke",
+     "Den Schlüssel",
+     "Das Handy"
+    ]
+   },
+   {
+    "frage": "Milch kostet 1 Euro. Brot kostet 2 Euro. Wie viel kostet alles?",
+    "antworten": [
+     "3 Euro",
+     "2 Euro",
+     "4 Euro",
+     "1 Euro"
+    ]
+   },
+   {
+    "frage": "Was bekommst du nach dem Bezahlen?",
+    "antworten": [
+     "Den Kassenbon",
+     "Die Einkaufsliste",
+     "Den Prospekt",
+     "Das Preisschild"
+    ]
+   },
+   {
+    "frage": "Was sagst du zum Schluss an der Kasse?",
+    "antworten": [
+     "Danke und tschüss",
+     "Bis morgen früh",
+     "Guten Appetit",
+     "Gute Besserung"
+    ]
+   }
+  ]
+ }
+];
+var ton = false;
+var app = document.getElementById('app');
+var raum = 0, liste = [], pos = 0, zeichen = [], eingabe = [], gesperrt = false;
+
+function el(tag, cls, text){var e = document.createElement(tag); if(cls) e.className = cls; if(text !== undefined) e.textContent = text; return e;}
+function knopf(cls, text, fn){var b = el('button', cls, text); b.type = 'button'; b.addEventListener('click', fn); return b;}
+function sprich(t, immer){
+  if(!(ton || immer)) return;
+  try{speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t.replace(/\|/g, '')); u.lang = 'de-DE'; u.rate = 0.85; speechSynthesis.speak(u);}catch(e){}
+}
+function mische(a){a = a.slice(); for(var i = a.length - 1; i > 0; i--){var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t;} return a;}
+function tonText(){document.getElementById('ton').textContent = ton ? '🔊 Ton an' : '🔇 Ton aus';}
+function emoji(s){var m = s.split(' '); return m.length > 1 && !/[A-Za-zÄÖÜäöüß0-9]/.test(m[0]) ? m[0] : '';}
+function wort(s){var e = emoji(s); return e ? s.slice(e.length + 1) : s;}
+
+function plan(){
+  var p = document.getElementById('plan'); p.innerHTML = '';
+  RAEUME.forEach(function(r, i){
+    var d = el('div', i < raum ? 'done' : (i === raum ? 'now' : ''));
+    d.appendChild(el('span', '', i < raum ? '✓' : r.emoji));
+    d.appendChild(el('span', '', r.titel));
+    p.appendChild(d);
+  });
+}
+function stand(nr){
+  var s = el('div', 'stand');
+  s.appendChild(el('span', '', 'Raum ' + (raum + 1) + ' von ' + RAEUME.length));
+  if(nr !== undefined){
+    s.appendChild(el('span', '', LEVEL === 1 ? 'Bild ' + nr + ' von 5' : 'Aufgabe ' + Math.min(nr + 1, 5) + ' von 5'));
+    if(LEVEL <= 2){var d = el('span', 'dots'); for(var i = 0; i < 5; i++) d.appendChild(el('span', i < zeichen.filter(Boolean).length ? 'full' : '')); s.appendChild(d);}
+  }
+  return s;
+}
+function codeReihe(){
+  var c = el('div', 'code');
+  for(var i = 0; i < 5; i++){var z = zeichen[i]; c.appendChild(el('span', z ? '' : 'leer', z ? z : '?'));}
+  return c;
+}
+function leeren(){app.innerHTML = ''; plan(); window.scrollTo(0, 0);}
+
+function startSeite(){
+  leeren();
+  var b = el('div', 'box grau mitte');
+  b.appendChild(el('p', 'riesig', '🛒'));
+  b.appendChild(el('h1', '', 'Escape-Game: Einkaufen'));
+  START.forEach(function(t){b.appendChild(el('p', '', t));});
+  app.appendChild(b);
+  var u = el('div', 'unten'); u.appendChild(knopf('gross', 'Los geht es', raumStart)); app.appendChild(u);
+  sprich(START.join(' '));
+}
+function raumStart(){
+  leeren();
+  var r = RAEUME[raum];
+  app.appendChild(stand());
+  var b = el('div', 'box grau mitte');
+  b.appendChild(el('p', 'riesig', r.emoji));
+  b.appendChild(el('h2', '', 'Raum ' + (raum + 1) + ': ' + r.titel));
+  b.appendChild(el('p', '', LEVEL === 1 ? 'Drück den Knopf. Dann siehst du etwas Neues.' : 'Löse 5 Aufgaben. Dann bekommst du den Code für die Tür.'));
+  app.appendChild(b);
+  var u = el('div', 'unten'); u.appendChild(knopf('gross', 'Start', function(){
+    zeichen = [null, null, null, null, null]; liste = [0, 1, 2, 3, 4]; pos = 0;
+    if(LEVEL === 1) basal(); else frage();
+  })); app.appendChild(u);
+  sprich('Raum ' + (raum + 1) + '. ' + r.titel);
+}
+
+/* Niveau 1: Ursache und Wirkung */
+function basal(){
+  leeren();
+  var r = RAEUME[raum];
+  var n = zeichen.filter(Boolean).length;
+  app.appendChild(stand(n));
+  var z = el('div', 'box zeige');
+  if(n > 0){var a = r.aufgaben[n - 1]; z.appendChild(el('div', 'riesig', r.code[n - 1])); z.appendChild(el('p', '', wort(a.antworten[0])));}
+  else z.appendChild(el('p', '', 'Drück den Knopf.'));
+  app.appendChild(z);
+  var b = knopf('basal', n < 5 ? '👆 Drück mich' : '🚪 Tür öffnen', function(){
+    if(gesperrt) return; gesperrt = true; setTimeout(function(){gesperrt = false;}, 1200);
+    if(n < 5){zeichen[n] = r.code[n]; sprich(r.aufgaben[n].frage); basal();}
+    else geschafft();
+  });
+  app.appendChild(b); b.focus();
+}
+
+/* Niveau 2 bis 4: Fragen */
+function frage(){
+  leeren();
+  var r = RAEUME[raum], i = liste[pos], a = r.aufgaben[i];
+  app.appendChild(stand(zeichen.filter(Boolean).length));
+  var box = el('div', 'box');
+  var f = el('div', 'frage'); f.appendChild(el('p', '', a.frage));
+  f.appendChild(knopf('vor', '🔈', function(){sprich(a.frage, true);}));
+  f.lastChild.setAttribute('aria-label', 'Vorlesen');
+  box.appendChild(f); app.appendChild(box);
+  var feld = el('div', 'antw'), meld = el('p', 'meldung'), unten = el('div', 'unten'), knoepfe = [];
+  mische(a.antworten.map(function(t, k){return {t: t, ok: k === 0};})).forEach(function(o){
+    var b = el('button'); b.type = 'button';
+    var e = emoji(o.t);
+    if(e) b.appendChild(el('span', 'emo', e));
+    b.appendChild(el('span', '', wort(o.t)));
+    b._ok = o.ok; knoepfe.push(b);
+    b.addEventListener('click', function(){
+      knoepfe.forEach(function(k){k.disabled = true;});
+      if(o.ok){
+        b.classList.add('ok'); b.appendChild(el('span', 'zeichen', '✓ ' + r.code[i]));
+        zeichen[i] = r.code[i]; meld.textContent = '✓ Richtig. Gut gemacht.'; meld.style.color = 'var(--green)';
+        sprich('Richtig. Gut gemacht.');
+      } else {
+        b.classList.add('no'); b.appendChild(el('span', 'zeichen', '✗'));
+        var rk = knoepfe.filter(function(k){return k._ok;})[0]; rk.classList.add('ok');
+        setTimeout(function(){rk.classList.remove('ok');}, 3000);
+        liste.push(i);
+        meld.textContent = '✗ Das war nicht richtig. Hier ist die Lösung. Die Aufgabe kommt später noch einmal.'; meld.style.color = 'var(--red)';
+        sprich('Das war nicht richtig. Die Aufgabe kommt später noch einmal.');
+      }
+      app.replaceChild(codeBox(), cb); cb = null;
+      var w = knopf('gross', 'Weiter', function(){pos++; if(pos < liste.length) frage(); else codeSeite();});
+      unten.appendChild(w); w.focus();
+    });
+    feld.appendChild(b);
+  });
+  box.appendChild(feld); box.appendChild(meld);
+  var cb = codeBox(); app.appendChild(cb); app.appendChild(unten);
+  sprich(a.frage);
+}
+function codeBox(){var b = el('div', 'box grau'); b.appendChild(el('p', '', 'Dein Code:')); b.appendChild(codeReihe()); return b;}
+
+/* Code eingeben */
+function codeSeite(){
+  leeren();
+  var r = RAEUME[raum];
+  app.appendChild(stand());
+  var box = el('div', 'box mitte');
+  box.appendChild(el('p', 'mittel', '🔒'));
+  var meld = el('p', 'meldung');
+  if(LEVEL === 4){
+    box.appendChild(el('p', '', 'Du hast alle Buchstaben. Schreib das Codewort.'));
+    box.appendChild(codeReihe());
+    var form = el('div', 'reihe'); form.style.justifyContent = 'center'; form.style.marginTop = '16px';
+    var inp = el('input', 'wort'); inp.setAttribute('aria-label', 'Codewort'); inp.autocomplete = 'off'; inp.setAttribute('autocapitalize', 'characters');
+    var pruefe = function(){
+      if(inp.value.trim().toUpperCase() === r.code.join('')) geschafft();
+      else {meld.textContent = 'Der Code passt noch nicht. Versuch es noch einmal.'; meld.style.color = 'var(--red)'; inp.focus();}
+    };
+    inp.addEventListener('keydown', function(e){if(e.key === 'Enter') pruefe();});
+    form.appendChild(inp); form.appendChild(knopf('gross', 'Bestätigen', pruefe));
+    box.appendChild(form); box.appendChild(meld); app.appendChild(box); inp.focus();
+    sprich('Schreib das Codewort.');
+    return;
+  }
+  box.appendChild(el('p', '', LEVEL === 3 ? 'Tippe die Buchstaben in der richtigen Reihenfolge an.' : 'Tippe die Bilder in der richtigen Reihenfolge an.'));
+  box.appendChild(el('p', '', 'Vorlage:'));
+  var vorlage = el('div', 'code'); r.code.forEach(function(z){vorlage.appendChild(el('span', '', z));}); box.appendChild(vorlage);
+  box.appendChild(el('p', '', 'Deine Eingabe:'));
+  eingabe = [];
+  var reihe = el('div', 'code'); box.appendChild(reihe);
+  var kach = el('div', 'kacheln'), alle = [];
+  function zeigen(){reihe.innerHTML = ''; for(var k = 0; k < 5; k++) reihe.appendChild(el('span', eingabe[k] ? '' : 'leer', eingabe[k] || '?'));}
+  zeigen();
+  mische(r.code.map(function(z, k){return {z: z, k: k};})).forEach(function(o){
+    var b = knopf('', o.z, function(){
+      b.disabled = true; eingabe.push(o.z); zeigen();
+      if(eingabe.length === 5){
+        if(eingabe.join('') === r.code.join('')) setTimeout(geschafft, 600);
+        else {meld.textContent = 'Der Code passt noch nicht. Versuch es noch einmal.'; meld.style.color = 'var(--red)'; sprich('Der Code passt noch nicht. Versuch es noch einmal.');
+          setTimeout(function(){eingabe = []; zeigen(); alle.forEach(function(x){x.disabled = false;});}, 1500);}
+      }
+    });
+    alle.push(b); kach.appendChild(b);
+  });
+  box.appendChild(kach); box.appendChild(meld); app.appendChild(box);
+  sprich(LEVEL === 3 ? 'Tippe die Buchstaben in der richtigen Reihenfolge an.' : 'Tippe die Bilder in der richtigen Reihenfolge an.');
+}
+
+/* Raum geschafft */
+function konfetti(){
+  var farben = ['#1f5fa8', '#2e7d32', '#f2c94c'];
+  for(var i = 0; i < 24; i++){
+    var k = el('div', 'konf'); k.style.left = Math.random() * 100 + 'vw'; k.style.background = farben[i % 3];
+    k.style.animationDelay = Math.random() * .8 + 's'; document.body.appendChild(k);
+    setTimeout(function(x){return function(){x.remove();};}(k), 3600);
+  }
+}
+function geschafft(){
+  raum++; leeren(); konfetti();
+  var box = el('div', 'box grau mitte');
+  box.appendChild(el('div', 'tuer', '🚪'));
+  if(raum < RAEUME.length){
+    box.appendChild(el('h2', '', 'Die Tür ist offen.'));
+    box.appendChild(el('p', '', 'Als Nächstes: ' + RAEUME[raum].emoji + ' ' + RAEUME[raum].titel));
+    app.appendChild(box);
+    var u = el('div', 'unten'), w = knopf('gross', 'Weiter', raumStart); u.appendChild(w); app.appendChild(u); w.focus();
+    sprich('Die Tür ist offen.');
+  } else {
+    box.firstChild.textContent = RAEUME.map(function(r){return r.emoji;}).join(' ');
+    box.appendChild(el('h2', '', 'Geschafft. Du hast alle Räume geöffnet.'));
+    box.appendChild(el('p', '', 'Der Einkauf für das Klassenfrühstück ist fertig.'));
+    app.appendChild(box);
+    var u2 = el('div', 'unten'), n = knopf('gross', 'Noch einmal spielen', function(){raum = 0; startSeite();}); u2.appendChild(n); app.appendChild(u2);
+    sprich('Geschafft. Du hast alle Räume geöffnet.');
+  }
+}
+
+document.getElementById('ton').addEventListener('click', function(){ton = !ton; tonText(); if(!ton){try{speechSynthesis.cancel();}catch(e){}}});
+document.getElementById('pauseBtn').addEventListener('click', function(){document.getElementById('pause').classList.add('an'); try{speechSynthesis.cancel();}catch(e){} document.getElementById('weiterPause').focus();});
+document.getElementById('weiterPause').addEventListener('click', function(){document.getElementById('pause').classList.remove('an');});
+tonText();
+startSeite();
+</script>
+</body>
+</html>
