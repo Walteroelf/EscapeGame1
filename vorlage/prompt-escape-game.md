@@ -63,10 +63,22 @@ Niveau 1 – basal:
 - Die Antwortpositionen werden bei jedem Anzeigen einer Frage per JavaScript zufällig gemischt.
 - Alle Antwortoptionen sind vor der Auswahl optisch und technisch exakt gleich: alle als button, gleiche Größe, Farbe und Rahmen, kein Eingabefeld.
 
+### Raum-Ansicht (wie ein echtes Escape-Game)
+- Jeder Raum wird als gezeichneter Raum mit Inline-SVG dargestellt: Rückwand, Seitenwände, Boden, Schild mit Raumtitel und eine Tür rechts.
+- Im Raum stehen 5 Gegenstände mit festen Plätzen: Kiste links, Regal links, Tisch in der Mitte, Regal rechts, Korb rechts. Die Plätze sind in jedem Raum gleich, nur Farben und Inhalte wechseln (Emojis passend zum Raum).
+- Jeder Gegenstand hat ein deutlich sichtbares Fragezeichen. Es gibt keine versteckten Dinge und kein Suchen nach Pixeln.
+- Antippen eines Gegenstands öffnet ein Fenster mit der Aufgabe. Danach geht es mit dem Knopf Zurück in den Raum weiter.
+- Die Aufgaben können in beliebiger Reihenfolge gelöst werden. Gegenstand 1 gehört trotzdem immer zum 1. Lösungszeichen usw.
+- Gelöste Gegenstände zeigen statt des Fragezeichens das gefundene Zeichen. Unter dem Raum steht die Leiste Gefunden mit 5 Kästchen.
+- Falsch gelöste Gegenstände behalten ihr Fragezeichen und können später noch einmal angetippt werden.
+- Die Tür hat ein Schloss-Symbol. Antippen vor dem Ende: freundlicher Hinweis, dass noch Zeichen fehlen. Sind alle 5 Zeichen gefunden, wird das Schloss zum Schlüssel und die Tür öffnet das Code-Fenster.
+- Bei richtigem Code schwingt die Tür langsam auf, dahinter ist warmes Licht. Danach kommt die Seite Die Tür ist offen.
+- Niveau 1: Nur der nächste Gegenstand ist hervorgehoben, die anderen sind blass. Jeder Druck auf den großen Knopf, auf den Raum oder auf die Taster-Taste deckt den nächsten Gegenstand auf. Nach 5 Gegenständen öffnet ein Druck die Tür.
+
 ### Rückmeldung und Fehler
 - Jede Frage hat einen Versuch. Nach dem Klick wird die gewählte Antwort fest markiert: grüner Rahmen mit ✓ bei richtig, roter Rahmen mit ✗ bei falsch. Danach werden alle Buttons deaktiviert. Farbe nie als einziges Signal.
 - Richtig: Das Lösungszeichen erscheint im Codefeld. Kurzes, ruhiges Lob (z. B. Richtig. Gut gemacht.).
-- Falsch: Die richtige Antwort wird 3 Sekunden grün hervorgehoben. Ruhige Rückmeldung (z. B. Das war nicht richtig. Hier ist die Lösung.). Die Frage kommt am Ende des Raums noch einmal mit neu gemischten Antworten, bis sie richtig gelöst ist. Der Raum startet nie komplett neu.
+- Falsch: Die richtige Antwort wird 3 Sekunden grün hervorgehoben. Ruhige Rückmeldung (z. B. Das war nicht richtig. Hier ist die Lösung.). Der Gegenstand behält sein Fragezeichen und die Aufgabe kann später mit neu gemischten Antworten noch einmal gelöst werden. Der Raum startet nie komplett neu.
 - Beim Laden der nächsten Frage werden alle Markierungen vollständig zurückgesetzt.
 - Falsche Code-Eingabe: freundliche Meldung (z. B. Der Code passt noch nicht. Versuch es noch einmal.) und neuer Versuch. Bei Niveau 2 und 3 werden die Kacheln einfach zurückgesetzt.
 - Nach dem letzten Raum erscheint eine ruhige Erfolgsseite mit allen Raum-Emojis und dem Satz Geschafft. Du hast alle Räume geöffnet.
@@ -119,7 +131,7 @@ Niveau 1 – basal:
 ### Prüfe vor der Ausgabe selbst
 1. Hat jeder Raum in jedem Niveau genau 5 Aufgaben?
 2. Hat jedes Codewort genau 5 Buchstaben, ist es ein echtes Wort und passt es zum Thema? Hat jeder Emoji-Code genau 5 Emojis?
-3. Haben alle Niveau-Dateien dieselben Räume, Titel und Emojis?
+3. Haben alle Niveau-Dateien dieselben Räume, Titel, Emojis und Gegenstände an denselben Plätzen?
 4. Hat Niveau 4 je 4 Antworten, Niveau 3 je 3 und Niveau 2 je 2?
 5. Kommen in den Texten im JavaScript Anführungszeichen oder Apostrophe vor? Wenn ja, umformulieren.
 6. Gibt es irgendwo onclick im HTML? Wenn ja, durch addEventListener ersetzen.

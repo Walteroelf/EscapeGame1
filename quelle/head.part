@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escape-Game Einkaufen – __TITLE__</title>
+<style>
+:root{--text:#1d1d1b;--bg:#fff;--box:#f5f5f2;--line:#9a9a94;--blue:#1f5fa8;--green:#2e7d32;--red:#c62828;--gold:#f2c94c;--fs:__FS__px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Grundschrift,Andika,Arial,Helvetica,sans-serif;font-size:var(--fs);line-height:1.5}
+button,input{font:inherit;color:inherit}
+p,h1,h2{margin:.35em 0}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid var(--blue);outline-offset:4px}
+header{border-bottom:3px solid var(--line);padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.plan{display:flex;gap:8px;flex-wrap:wrap}
+.plan div{border:3px solid var(--line);border-radius:12px;padding:4px 12px;font-size:.7em;background:var(--bg);display:flex;gap:6px;align-items:center}
+.plan .now{border-color:var(--blue);background:#e7f0fb;font-weight:bold}
+.plan .done{background:var(--box);color:#555}
+.tools{display:flex;gap:8px}
+.tools button{min-width:64px;min-height:56px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.8em;padding:4px 10px}
+main{max-width:980px;margin:0 auto;padding:16px}
+.stand{font-size:.8em;margin:4px 0 12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.dots{display:flex;gap:8px}
+.dots span{width:24px;height:24px;border-radius:50%;border:3px solid var(--text)}
+.dots .full{background:var(--text)}
+.box{border:3px solid var(--text);border-radius:16px;padding:20px;margin:0 0 18px;background:var(--bg)}
+.box.grau{background:var(--box)}
+.frage{display:flex;gap:14px;align-items:flex-start}
+.frage p{margin:0;flex:1;font-weight:bold}
+.vor{min-width:64px;min-height:64px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.9em}
+.antw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,__MINW__px),1fr));gap:18px}
+.antw button{min-height:__BTNH__px;border:3px solid var(--blue);border-radius:16px;background:var(--bg);padding:10px 14px;line-height:1.3}
+.antw button .emo{display:block;font-size:2em;line-height:1.2}
+.antw button:disabled{cursor:default;opacity:1}
+.antw button.ok{border:6px solid var(--green);background:#e7f4e8}
+.antw button.no{border:6px solid var(--red);background:#fbeaea}
+.antw button .zeichen{display:block;font-weight:bold;font-size:.8em}
+.meldung{min-height:1.6em;margin:14px 0 0;font-weight:bold}
+.code{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.code span{width:2.1em;height:2.1em;border:3px solid var(--text);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;background:var(--bg)}
+.code span.leer{border-style:dashed;color:#999}
+.unten{display:flex;justify-content:flex-end;margin-top:8px;min-height:84px}
+.gross{min-height:80px;min-width:220px;border:4px solid var(--text);border-radius:16px;background:var(--gold);font-weight:bold;padding:10px 26px}
+.kacheln{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.kacheln button{width:2.8em;height:2.8em;border:3px solid var(--blue);border-radius:14px;background:var(--bg);font-weight:bold;font-size:1.1em}
+.kacheln button:disabled{opacity:.3}
+input.wort{width:100%;max-width:420px;min-height:72px;border:3px solid var(--text);border-radius:12px;padding:6px 14px;text-transform:uppercase;letter-spacing:.2em}
+.reihe{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.mitte{text-align:center}
+.riesig{font-size:3em;line-height:1.2}
+.mittel{font-size:2em;line-height:1.2}
+.basal{width:100%;min-height:38vh;border:6px solid var(--text);border-radius:28px;background:var(--gold);font-size:1.3em;font-weight:bold}
+.zeige{min-height:2.4em;text-align:center}
+.zeige .riesig{animation:auf 1.6s ease-out}
+.pause{position:fixed;inset:0;background:#d9d9d6;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20}
+.pause.an{display:flex}
+.tuer{font-size:4em;display:inline-block;animation:tuer 1.4s ease-out}
+.konf{position:fixed;top:-20px;width:14px;height:14px;border-radius:3px;z-index:10;animation:fall 2.6s linear forwards}
+@keyframes auf{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes tuer{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes fall{to{transform:translateY(105vh) rotate(200deg);opacity:.6}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.konf{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="plan" id="plan"></div>
+<div class="tools"><button id="ton" type="button"></button><button id="pauseBtn" type="button">⏸ Pause</button></div>
+</header>

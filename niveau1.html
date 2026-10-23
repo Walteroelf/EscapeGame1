@@ -11,56 +11,69 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Grundschrift,An
 button,input{font:inherit;color:inherit}
 p,h1,h2{margin:.35em 0}
 button{cursor:pointer}
-button:focus-visible,input:focus-visible{outline:4px solid var(--blue);outline-offset:4px}
-header{border-bottom:3px solid var(--line);padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+button:focus-visible,input:focus-visible,.ding:focus-visible,.tuerG:focus-visible{outline:4px solid var(--blue);outline-offset:4px}
+header{border-bottom:3px solid var(--line);padding:8px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .plan{display:flex;gap:8px;flex-wrap:wrap}
-.plan div{border:3px solid var(--line);border-radius:12px;padding:4px 12px;font-size:.7em;background:var(--bg);display:flex;gap:6px;align-items:center}
+.plan div{border:3px solid var(--line);border-radius:12px;padding:2px 12px;font-size:.6em;background:var(--bg);display:flex;gap:6px;align-items:center}
 .plan .now{border-color:var(--blue);background:#e7f0fb;font-weight:bold}
 .plan .done{background:var(--box);color:#555}
 .tools{display:flex;gap:8px}
-.tools button{min-width:64px;min-height:56px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.8em;padding:4px 10px}
-main{max-width:980px;margin:0 auto;padding:16px}
-.stand{font-size:.8em;margin:4px 0 12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.tools button{min-width:64px;min-height:52px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.7em;padding:4px 10px}
+main{max-width:1100px;margin:0 auto;padding:10px 16px}
+.stand{font-size:.7em;margin:0 0 8px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .dots{display:flex;gap:8px}
-.dots span{width:24px;height:24px;border-radius:50%;border:3px solid var(--text)}
+.dots span{width:22px;height:22px;border-radius:50%;border:3px solid var(--text)}
 .dots .full{background:var(--text)}
-.box{border:3px solid var(--text);border-radius:16px;padding:20px;margin:0 0 18px;background:var(--bg)}
+.box{border:3px solid var(--text);border-radius:16px;padding:18px;margin:0 0 14px;background:var(--bg)}
 .box.grau{background:var(--box)}
+.szene{border:3px solid var(--text);border-radius:16px;overflow:hidden;background:#e9e4da;line-height:0}
+.szene svg{width:100%;height:auto;display:block;max-height:62vh}
+.ding,.tuerG{cursor:pointer}
+.ding .hit,.tuerG .hit{fill:transparent}
+.ding.aus{opacity:.35}
+.ding.aktiv .hit{stroke:var(--gold);stroke-width:10;fill:rgba(242,201,76,.18)}
+.tuerG.aktiv .blatt{stroke:var(--gold);stroke-width:10}
+.blatt{transition:transform 1.4s ease-in-out;transform-box:fill-box;transform-origin:left center}
+.tuerG.offen .blatt{transform:scaleX(.18)}
+.ding.neu .emo{animation:auf 1.2s ease-out;transform-box:fill-box;transform-origin:center}
+.leiste{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:10px}
+.hinweis{font-weight:bold;min-height:1.5em;margin:6px 0 0}
 .frage{display:flex;gap:14px;align-items:flex-start}
 .frage p{margin:0;flex:1;font-weight:bold}
 .vor{min-width:64px;min-height:64px;border:3px solid var(--line);border-radius:12px;background:var(--bg);font-size:.9em}
-.antw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
+.antw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin-top:12px}
 .antw button{min-height:160px;border:3px solid var(--blue);border-radius:16px;background:var(--bg);padding:10px 14px;line-height:1.3}
 .antw button .emo{display:block;font-size:2em;line-height:1.2}
 .antw button:disabled{cursor:default;opacity:1}
 .antw button.ok{border:6px solid var(--green);background:#e7f4e8}
 .antw button.no{border:6px solid var(--red);background:#fbeaea}
 .antw button .zeichen{display:block;font-weight:bold;font-size:.8em}
-.meldung{min-height:1.6em;margin:14px 0 0;font-weight:bold}
+.meldung{min-height:1.5em;margin:12px 0 0;font-weight:bold}
 .code{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.code span{width:2.1em;height:2.1em;border:3px solid var(--text);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;background:var(--bg)}
+.code span{width:2em;height:2em;border:3px solid var(--text);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;background:var(--bg)}
 .code span.leer{border-style:dashed;color:#999}
-.unten{display:flex;justify-content:flex-end;margin-top:8px;min-height:84px}
-.gross{min-height:80px;min-width:220px;border:4px solid var(--text);border-radius:16px;background:var(--gold);font-weight:bold;padding:10px 26px}
-.kacheln{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:16px}
-.kacheln button{width:2.8em;height:2.8em;border:3px solid var(--blue);border-radius:14px;background:var(--bg);font-weight:bold;font-size:1.1em}
+.inv{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.unten{display:flex;justify-content:flex-end;margin-top:10px;gap:12px;flex-wrap:wrap}
+.gross{min-height:76px;min-width:200px;border:4px solid var(--text);border-radius:16px;background:var(--gold);font-weight:bold;padding:8px 24px}
+.zurueck{background:var(--bg)}
+.kacheln{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.kacheln button{width:2.6em;height:2.6em;border:3px solid var(--blue);border-radius:14px;background:var(--bg);font-weight:bold;font-size:1.1em}
 .kacheln button:disabled{opacity:.3}
 input.wort{width:100%;max-width:420px;min-height:72px;border:3px solid var(--text);border-radius:12px;padding:6px 14px;text-transform:uppercase;letter-spacing:.2em}
-.reihe{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.reihe{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:14px}
 .mitte{text-align:center}
 .riesig{font-size:3em;line-height:1.2}
-.mittel{font-size:2em;line-height:1.2}
-.basal{width:100%;min-height:38vh;border:6px solid var(--text);border-radius:28px;background:var(--gold);font-size:1.3em;font-weight:bold}
-.zeige{min-height:2.4em;text-align:center}
-.zeige .riesig{animation:auf 1.6s ease-out}
+.basal{min-height:110px;min-width:min(100%,520px);border:6px solid var(--text);border-radius:24px;background:var(--gold);font-size:1.1em;font-weight:bold;padding:10px 30px}
+.dialog{position:fixed;inset:0;background:rgba(40,40,38,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:15}
+.dialog .box{width:100%;max-width:900px;max-height:92vh;overflow:auto;margin:0}
+.dialog .kopf{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+.dialog .kopf .emo{font-size:2.2em;line-height:1}
 .pause{position:fixed;inset:0;background:#d9d9d6;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:20}
 .pause.an{display:flex}
-.tuer{font-size:4em;display:inline-block;animation:tuer 1.4s ease-out}
 .konf{position:fixed;top:-20px;width:14px;height:14px;border-radius:3px;z-index:10;animation:fall 2.6s linear forwards}
-@keyframes auf{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
-@keyframes tuer{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes auf{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
 @keyframes fall{to{transform:translateY(105vh) rotate(200deg);opacity:.6}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}.konf{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.konf{display:none}}
 </style>
 </head>
 <body>
@@ -84,6 +97,21 @@ var RAEUME = [
    "🥕",
    "🍓"
   ],
+  "dinge": [
+   "🍎",
+   "🍌",
+   "🍐",
+   "🥕",
+   "🍓"
+  ],
+  "farben": {
+   "wand": "#e3edd5",
+   "seite": "#d2e0c0",
+   "decke": "#f1f5ea",
+   "holz": "#b98a5a",
+   "innen": "#efe3cf",
+   "tuer": "#7a8f5a"
+  },
   "aufgaben": [
    {
     "frage": "Da ist der Apfel.",
@@ -127,6 +155,21 @@ var RAEUME = [
    "🍰",
    "🍪"
   ],
+  "dinge": [
+   "🍞",
+   "🥨",
+   "🥐",
+   "🍰",
+   "🍪"
+  ],
+  "farben": {
+   "wand": "#f3e3cc",
+   "seite": "#e6d2b5",
+   "decke": "#f8f0e4",
+   "holz": "#a9774a",
+   "innen": "#f6ead8",
+   "tuer": "#9a6a3f"
+  },
   "aufgaben": [
    {
     "frage": "Da ist das Brot.",
@@ -170,6 +213,21 @@ var RAEUME = [
    "🛍️",
    "👛"
   ],
+  "dinge": [
+   "💶",
+   "🛒",
+   "🧾",
+   "🛍️",
+   "👛"
+  ],
+  "farben": {
+   "wand": "#dbe6f1",
+   "seite": "#c8d7e6",
+   "decke": "#eef3f8",
+   "holz": "#9fa8b3",
+   "innen": "#eef1f4",
+   "tuer": "#5b7896"
+  },
   "aufgaben": [
    {
     "frage": "Da ist das Geld.",
@@ -206,10 +264,21 @@ var RAEUME = [
 ];
 var ton = true;
 var app = document.getElementById('app');
-var raum = 0, liste = [], pos = 0, zeichen = [], eingabe = [], gesperrt = false;
+var raum = 0, zeichen = [], gesperrt = false, dlg = null, hinweisEl = null, szeneEl = null;
+var NS = 'http://www.w3.org/2000/svg';
+
+/* Gleiche Anordnung in jedem Raum: Kiste, Regal links, Tisch, Regal rechts, Korb */
+var ORTE = [
+  {name: 'die Kiste', wo: 'in der Kiste', hit: [40, 330, 250, 240], x: 165, y: 420, b: [270, 345]},
+  {name: 'das Regal links', wo: 'im Regal links', hit: [255, 120, 225, 110], x: 368, y: 205, b: [460, 135]},
+  {name: 'der Tisch', wo: 'auf dem Tisch', hit: [380, 300, 240, 120], x: 500, y: 385, b: [600, 315]},
+  {name: 'das Regal rechts', wo: 'im Regal rechts', hit: [520, 120, 225, 110], x: 632, y: 205, b: [725, 135]},
+  {name: 'der Korb', wo: 'im Korb', hit: [665, 350, 200, 220], x: 765, y: 460, b: [845, 365]}
+];
 
 function el(tag, cls, text){var e = document.createElement(tag); if(cls) e.className = cls; if(text !== undefined) e.textContent = text; return e;}
 function knopf(cls, text, fn){var b = el('button', cls, text); b.type = 'button'; b.addEventListener('click', fn); return b;}
+function sv(tag, attrs, text){var e = document.createElementNS(NS, tag); for(var k in attrs) e.setAttribute(k, attrs[k]); if(text !== undefined) e.textContent = text; return e;}
 function sprich(t, immer){
   if(!(ton || immer)) return;
   try{speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t.replace(/\|/g, '')); u.lang = 'de-DE'; u.rate = 0.85; speechSynthesis.speak(u);}catch(e){}
@@ -218,6 +287,12 @@ function mische(a){a = a.slice(); for(var i = a.length - 1; i > 0; i--){var j = 
 function tonText(){document.getElementById('ton').textContent = ton ? '🔊 Ton an' : '🔇 Ton aus';}
 function emoji(s){var m = s.split(' '); return m.length > 1 && !/[A-Za-zÄÖÜäöüß0-9]/.test(m[0]) ? m[0] : '';}
 function wort(s){var e = emoji(s); return e ? s.slice(e.length + 1) : s;}
+function anzahl(){return zeichen.filter(Boolean).length;}
+function tastbar(g, fn){
+  g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button');
+  g.addEventListener('click', fn);
+  g.addEventListener('keydown', function(e){if(e.key === 'Enter' || e.key === ' '){e.preventDefault(); fn();}});
+}
 
 function plan(){
   var p = document.getElementById('plan'); p.innerHTML = '';
@@ -228,12 +303,12 @@ function plan(){
     p.appendChild(d);
   });
 }
-function stand(nr){
+function stand(mitFund){
   var s = el('div', 'stand');
   s.appendChild(el('span', '', 'Raum ' + (raum + 1) + ' von ' + RAEUME.length));
-  if(nr !== undefined){
-    s.appendChild(el('span', '', LEVEL === 1 ? 'Bild ' + nr + ' von 5' : 'Aufgabe ' + Math.min(nr + 1, 5) + ' von 5'));
-    if(LEVEL <= 2){var d = el('span', 'dots'); for(var i = 0; i < 5; i++) d.appendChild(el('span', i < zeichen.filter(Boolean).length ? 'full' : '')); s.appendChild(d);}
+  if(mitFund){
+    s.appendChild(el('span', '', 'Gefunden: ' + anzahl() + ' von 5'));
+    if(LEVEL <= 2){var d = el('span', 'dots'); for(var i = 0; i < 5; i++) d.appendChild(el('span', i < anzahl() ? 'full' : '')); s.appendChild(d);}
   }
   return s;
 }
@@ -242,7 +317,80 @@ function codeReihe(){
   for(var i = 0; i < 5; i++){var z = zeichen[i]; c.appendChild(el('span', z ? '' : 'leer', z ? z : '?'));}
   return c;
 }
-function leeren(){app.innerHTML = ''; plan(); window.scrollTo(0, 0);}
+function leeren(){schliessen(); app.innerHTML = ''; plan(); window.scrollTo(0, 0);}
+function hinweis(t, farbe){hinweisEl.textContent = t; hinweisEl.style.color = farbe || 'var(--text)'; sprich(t);}
+
+/* Der Raum als Bild */
+function szene(){
+  var r = RAEUME[raum], f = r.farben, sw = 90 + r.titel.length * 17;
+  var s = sv('svg', {viewBox: '0 0 1000 600', role: 'img', 'aria-label': 'Raum ' + r.titel});
+  s.innerHTML =
+    '<polygon points="0,0 1000,0 880,30 120,30" fill="' + f.decke + '"/>' +
+    '<rect x="120" y="30" width="760" height="350" fill="' + f.wand + '"/>' +
+    '<polygon points="0,0 120,30 120,380 0,600" fill="' + f.seite + '"/>' +
+    '<polygon points="1000,0 880,30 880,380 1000,600" fill="' + f.seite + '"/>' +
+    '<polygon points="120,380 880,380 1000,600 0,600" fill="#d8cfc1"/>' +
+    '<g stroke="#c4b9a8" stroke-width="3"><line x1="80" y1="455" x2="920" y2="455"/><line x1="40" y1="525" x2="960" y2="525"/>' +
+    '<line x1="310" y1="380" x2="250" y2="600"/><line x1="500" y1="380" x2="500" y2="600"/><line x1="690" y1="380" x2="750" y2="600"/></g>' +
+    '<rect x="' + (500 - sw / 2) + '" y="44" width="' + sw + '" height="58" rx="10" fill="#fff" stroke="#1d1d1b" stroke-width="4"/>' +
+    '<text x="500" y="84" text-anchor="middle" font-size="30" font-weight="bold" fill="#1d1d1b" font-family="Grundschrift,Andika,Arial,sans-serif">' + r.emoji + ' ' + r.titel + '</text>' +
+    /* Regal */
+    '<rect x="250" y="115" width="500" height="250" fill="' + f.holz + '" stroke="#5e4630" stroke-width="4"/>' +
+    '<rect x="266" y="128" width="468" height="100" fill="' + f.innen + '"/><rect x="266" y="240" width="468" height="112" fill="' + f.innen + '"/>' +
+    '<rect x="250" y="226" width="500" height="14" fill="#8a6440"/>' +
+    /* Tisch */
+    '<polygon points="370,380 630,380 655,410 345,410" fill="' + f.holz + '" stroke="#5e4630" stroke-width="4"/>' +
+    '<rect x="360" y="410" width="18" height="110" fill="#8a6440"/><rect x="622" y="410" width="18" height="110" fill="#8a6440"/>' +
+    /* Kiste */
+    '<rect x="60" y="440" width="210" height="120" fill="' + f.holz + '" stroke="#5e4630" stroke-width="4"/>' +
+    '<line x1="60" y1="480" x2="270" y2="480" stroke="#5e4630" stroke-width="4"/><line x1="60" y1="520" x2="270" y2="520" stroke="#5e4630" stroke-width="4"/>' +
+    /* Korb */
+    '<path d="M680,480 L850,480 L830,565 L700,565 Z" fill="#c9a26b" stroke="#5e4630" stroke-width="4"/>' +
+    '<path d="M700,480 Q765,400 830,480" fill="none" stroke="#5e4630" stroke-width="7"/>' +
+    '<g stroke="#5e4630" stroke-width="3"><line x1="690" y1="510" x2="842" y2="510"/><line x1="696" y1="538" x2="836" y2="538"/></g>';
+  /* Tür */
+  var t = sv('g', {'class': 'tuerG', 'aria-label': 'Tür'});
+  t.appendChild(sv('polygon', {points: '898,110 968,82 968,540 898,450', fill: '#fff3c4'}));
+  var blatt = sv('g', {'class': 'blatt'});
+  blatt.appendChild(sv('polygon', {points: '898,110 968,82 968,540 898,450', fill: f.tuer, stroke: '#3a2c1d', 'stroke-width': 5}));
+  blatt.appendChild(sv('circle', {cx: 952, cy: 315, r: 8, fill: '#3a2c1d'}));
+  t.appendChild(blatt);
+  t.appendChild(sv('circle', {cx: 933, cy: 250, r: 30, fill: '#fff', stroke: '#1d1d1b', 'stroke-width': 4}));
+  var schloss = sv('text', {x: 933, y: 262, 'text-anchor': 'middle', 'font-size': 32}, '🔒');
+  t.appendChild(schloss);
+  t._schloss = schloss;
+  tastbar(t, tuer);
+  s.appendChild(t);
+  /* Dinge */
+  ORTE.forEach(function(o, i){
+    var g = sv('g', {'class': 'ding', 'aria-label': o.name});
+    g.appendChild(sv('rect', {'class': 'hit', x: o.hit[0], y: o.hit[1], width: o.hit[2], height: o.hit[3], rx: 18}));
+    var e = r.dinge[i];
+    g.appendChild(sv('text', {'class': 'emo', x: o.x, y: o.y, 'text-anchor': 'middle', 'font-size': 52}, e + e + e));
+    g.appendChild(sv('circle', {cx: o.b[0], cy: o.b[1], r: 24, fill: '#fff', stroke: '#1d1d1b', 'stroke-width': 4}));
+    g.appendChild(sv('text', {'class': 'badge', x: o.b[0], y: o.b[1] + 9, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 'bold', 'font-family': 'Arial,sans-serif'}, '?'));
+    tastbar(g, function(){ding(i);});
+    s.appendChild(g);
+  });
+  return s;
+}
+function szeneAuffrischen(neu){
+  var r = RAEUME[raum];
+  var dinge = szeneEl.querySelectorAll('.ding');
+  dinge.forEach(function(g, i){
+    var b = g.querySelector('.badge');
+    b.textContent = zeichen[i] ? (LEVEL <= 2 ? '✓' : zeichen[i]) : '?';
+    b.setAttribute('fill', zeichen[i] ? '#2e7d32' : '#1d1d1b');
+    g.classList.toggle('neu', i === neu);
+    if(LEVEL === 1){g.classList.toggle('aktiv', i === anzahl()); g.classList.toggle('aus', i !== anzahl() && !zeichen[i]);}
+  });
+  var t = szeneEl.querySelector('.tuerG');
+  t._schloss.textContent = anzahl() === 5 ? '🔑' : '🔒';
+  if(LEVEL === 1) t.classList.toggle('aktiv', anzahl() === 5);
+  var st = app.querySelector('.stand'); st.parentNode.replaceChild(stand(true), st);
+  var inv = app.querySelector('.inv .code'); inv.parentNode.replaceChild(codeReihe(), inv);
+  if(LEVEL === 1){var bb = app.querySelector('.basal'); bb.textContent = anzahl() < 5 ? '👆 Drück mich' : '🚪 Tür öffnen';}
+}
 
 function startSeite(){
   leeren();
@@ -256,49 +404,58 @@ function startSeite(){
 }
 function raumStart(){
   leeren();
-  var r = RAEUME[raum];
-  app.appendChild(stand());
-  var b = el('div', 'box grau mitte');
-  b.appendChild(el('p', 'riesig', r.emoji));
-  b.appendChild(el('h2', '', 'Raum ' + (raum + 1) + ': ' + r.titel));
-  b.appendChild(el('p', '', LEVEL === 1 ? 'Drück den Knopf. Dann siehst du etwas Neues.' : 'Löse 5 Aufgaben. Dann bekommst du den Code für die Tür.'));
-  app.appendChild(b);
-  var u = el('div', 'unten'); u.appendChild(knopf('gross', 'Start', function(){
-    zeichen = [null, null, null, null, null]; liste = [0, 1, 2, 3, 4]; pos = 0;
-    if(LEVEL === 1) basal(); else frage();
-  })); app.appendChild(u);
-  sprich('Raum ' + (raum + 1) + '. ' + r.titel);
+  zeichen = [null, null, null, null, null];
+  app.appendChild(stand(true));
+  var w = el('div', 'szene'); szeneEl = szene(); w.appendChild(szeneEl); app.appendChild(w);
+  var l = el('div', 'leiste');
+  var inv = el('div', 'inv'); inv.appendChild(el('span', '', 'Gefunden:')); inv.appendChild(codeReihe()); l.appendChild(inv);
+  if(LEVEL === 1){l.appendChild(knopf('basal', '👆 Drück mich', basal));}
+  app.appendChild(l);
+  hinweisEl = el('p', 'hinweis'); app.appendChild(hinweisEl);
+  szeneAuffrischen();
+  hinweis(LEVEL === 1 ? 'Du bist im Raum ' + RAEUME[raum].titel + '. Drück den Knopf.' : 'Du bist im Raum ' + RAEUME[raum].titel + '. Tippe auf die Dinge mit Fragezeichen. Finde 5 Zeichen. Dann öffne die Tür.');
+  if(LEVEL === 1) app.querySelector('.basal').focus();
 }
 
 /* Niveau 1: Ursache und Wirkung */
 function basal(){
-  leeren();
-  var r = RAEUME[raum];
-  var n = zeichen.filter(Boolean).length;
-  app.appendChild(stand(n));
-  var z = el('div', 'box zeige');
-  if(n > 0){var a = r.aufgaben[n - 1]; z.appendChild(el('div', 'riesig', r.code[n - 1])); z.appendChild(el('p', '', wort(a.antworten[0])));}
-  else z.appendChild(el('p', '', 'Drück den Knopf.'));
-  app.appendChild(z);
-  var b = knopf('basal', n < 5 ? '👆 Drück mich' : '🚪 Tür öffnen', function(){
-    if(gesperrt) return; gesperrt = true; setTimeout(function(){gesperrt = false;}, 1200);
-    if(n < 5){zeichen[n] = r.code[n]; sprich(r.aufgaben[n].frage); basal();}
-    else geschafft();
-  });
-  app.appendChild(b); b.focus();
+  if(gesperrt) return; gesperrt = true; setTimeout(function(){gesperrt = false;}, 1200);
+  var n = anzahl(), r = RAEUME[raum];
+  if(n < 5){zeichen[n] = r.code[n]; szeneAuffrischen(n); hinweis(r.aufgaben[n].frage); app.querySelector('.basal').focus();}
+  else tuerAuf();
 }
 
-/* Niveau 2 bis 4: Fragen */
-function frage(){
-  leeren();
-  var r = RAEUME[raum], i = liste[pos], a = r.aufgaben[i];
-  app.appendChild(stand(zeichen.filter(Boolean).length));
+/* Dialog */
+function schliessen(){if(dlg){dlg.remove(); dlg = null;}}
+function dialog(kopfEmoji, titel){
+  schliessen();
+  dlg = el('div', 'dialog'); dlg.setAttribute('role', 'dialog'); dlg.setAttribute('aria-modal', 'true');
   var box = el('div', 'box');
+  var k = el('div', 'kopf'); k.appendChild(el('span', 'emo', kopfEmoji)); k.appendChild(el('h2', '', titel)); box.appendChild(k);
+  dlg.appendChild(box); document.body.appendChild(dlg);
+  return box;
+}
+function zurueckKnopf(box, text){
+  var u = el('div', 'unten'), b = knopf('gross zurueck', text || '↩ Zurück in den Raum', schliessen);
+  u.appendChild(b); box.appendChild(u); return b;
+}
+
+/* Niveau 2 bis 4: Ding antippen, Aufgabe lösen */
+function ding(i){
+  var r = RAEUME[raum], o = ORTE[i];
+  if(LEVEL === 1){basal(); return;}
+  if(zeichen[i]){
+    var bx = dialog(r.dinge[i], 'Hier warst du schon.');
+    bx.appendChild(el('p', '', 'Dein Zeichen von hier:'));
+    var c = el('div', 'code'); c.appendChild(el('span', '', zeichen[i])); bx.appendChild(c);
+    zurueckKnopf(bx).focus(); return;
+  }
+  var a = r.aufgaben[i];
+  var box = dialog(r.dinge[i], 'Eine Aufgabe ' + o.wo);
   var f = el('div', 'frage'); f.appendChild(el('p', '', a.frage));
-  f.appendChild(knopf('vor', '🔈', function(){sprich(a.frage, true);}));
-  f.lastChild.setAttribute('aria-label', 'Vorlesen');
-  box.appendChild(f); app.appendChild(box);
-  var feld = el('div', 'antw'), meld = el('p', 'meldung'), unten = el('div', 'unten'), knoepfe = [];
+  var v = knopf('vor', '🔈', function(){sprich(a.frage, true);}); v.setAttribute('aria-label', 'Vorlesen'); f.appendChild(v);
+  box.appendChild(f);
+  var feld = el('div', 'antw'), meld = el('p', 'meldung'), knoepfe = [];
   mische(a.antworten.map(function(t, k){return {t: t, ok: k === 0};})).forEach(function(o){
     var b = el('button'); b.type = 'button';
     var e = emoji(o.t);
@@ -309,73 +466,78 @@ function frage(){
       knoepfe.forEach(function(k){k.disabled = true;});
       if(o.ok){
         b.classList.add('ok'); b.appendChild(el('span', 'zeichen', '✓ ' + r.code[i]));
-        zeichen[i] = r.code[i]; meld.textContent = '✓ Richtig. Gut gemacht.'; meld.style.color = 'var(--green)';
-        sprich('Richtig. Gut gemacht.');
+        zeichen[i] = r.code[i]; meld.textContent = '✓ Richtig. Du hast ein Zeichen gefunden.'; meld.style.color = 'var(--green)';
+        sprich('Richtig. Du hast ein Zeichen gefunden.');
+        szeneAuffrischen(i);
+        hinweis(anzahl() === 5 ? 'Du hast alle 5 Zeichen. Tippe auf die Tür.' : 'Gefunden: ' + anzahl() + ' von 5.');
       } else {
         b.classList.add('no'); b.appendChild(el('span', 'zeichen', '✗'));
         var rk = knoepfe.filter(function(k){return k._ok;})[0]; rk.classList.add('ok');
         setTimeout(function(){rk.classList.remove('ok');}, 3000);
-        liste.push(i);
-        meld.textContent = '✗ Das war nicht richtig. Hier ist die Lösung. Die Aufgabe kommt später noch einmal.'; meld.style.color = 'var(--red)';
-        sprich('Das war nicht richtig. Die Aufgabe kommt später noch einmal.');
+        meld.textContent = '✗ Das war nicht richtig. Hier ist die Lösung. Versuch es hier später noch einmal.'; meld.style.color = 'var(--red)';
+        sprich('Das war nicht richtig. Versuch es hier später noch einmal.');
       }
-      app.replaceChild(codeBox(), cb); cb = null;
-      var w = knopf('gross', 'Weiter', function(){pos++; if(pos < liste.length) frage(); else codeSeite();});
-      unten.appendChild(w); w.focus();
+      zurueckKnopf(box).focus();
     });
     feld.appendChild(b);
   });
   box.appendChild(feld); box.appendChild(meld);
-  var cb = codeBox(); app.appendChild(cb); app.appendChild(unten);
+  knoepfe[0].focus();
   sprich(a.frage);
 }
-function codeBox(){var b = el('div', 'box grau'); b.appendChild(el('p', '', 'Dein Code:')); b.appendChild(codeReihe()); return b;}
 
-/* Code eingeben */
-function codeSeite(){
-  leeren();
+/* Tür und Code */
+function tuer(){
+  if(LEVEL === 1){if(anzahl() === 5) basal(); return;}
+  if(anzahl() < 5){hinweis('Die Tür ist noch zu. Finde zuerst alle 5 Zeichen.', 'var(--red)'); return;}
   var r = RAEUME[raum];
-  app.appendChild(stand());
-  var box = el('div', 'box mitte');
-  box.appendChild(el('p', 'mittel', '🔒'));
+  var box = dialog('🔒', 'Das Schloss an der Tür');
   var meld = el('p', 'meldung');
   if(LEVEL === 4){
     box.appendChild(el('p', '', 'Du hast alle Buchstaben. Schreib das Codewort.'));
     box.appendChild(codeReihe());
-    var form = el('div', 'reihe'); form.style.justifyContent = 'center'; form.style.marginTop = '16px';
+    var form = el('div', 'reihe');
     var inp = el('input', 'wort'); inp.setAttribute('aria-label', 'Codewort'); inp.autocomplete = 'off'; inp.setAttribute('autocapitalize', 'characters');
     var pruefe = function(){
-      if(inp.value.trim().toUpperCase() === r.code.join('')) geschafft();
+      if(inp.value.trim().toUpperCase() === r.code.join('')) tuerAuf();
       else {meld.textContent = 'Der Code passt noch nicht. Versuch es noch einmal.'; meld.style.color = 'var(--red)'; inp.focus();}
     };
     inp.addEventListener('keydown', function(e){if(e.key === 'Enter') pruefe();});
     form.appendChild(inp); form.appendChild(knopf('gross', 'Bestätigen', pruefe));
-    box.appendChild(form); box.appendChild(meld); app.appendChild(box); inp.focus();
+    box.appendChild(form); box.appendChild(meld); zurueckKnopf(box); inp.focus();
     sprich('Schreib das Codewort.');
     return;
   }
-  box.appendChild(el('p', '', LEVEL === 3 ? 'Tippe die Buchstaben in der richtigen Reihenfolge an.' : 'Tippe die Bilder in der richtigen Reihenfolge an.'));
+  var satz = LEVEL === 3 ? 'Tippe die Buchstaben in der richtigen Reihenfolge an.' : 'Tippe die Bilder in der richtigen Reihenfolge an.';
+  box.appendChild(el('p', '', satz));
   box.appendChild(el('p', '', 'Vorlage:'));
   var vorlage = el('div', 'code'); r.code.forEach(function(z){vorlage.appendChild(el('span', '', z));}); box.appendChild(vorlage);
   box.appendChild(el('p', '', 'Deine Eingabe:'));
-  eingabe = [];
-  var reihe = el('div', 'code'); box.appendChild(reihe);
+  var eingabe = [], reihe = el('div', 'code'); box.appendChild(reihe);
   var kach = el('div', 'kacheln'), alle = [];
   function zeigen(){reihe.innerHTML = ''; for(var k = 0; k < 5; k++) reihe.appendChild(el('span', eingabe[k] ? '' : 'leer', eingabe[k] || '?'));}
   zeigen();
-  mische(r.code.map(function(z, k){return {z: z, k: k};})).forEach(function(o){
-    var b = knopf('', o.z, function(){
-      b.disabled = true; eingabe.push(o.z); zeigen();
+  mische(r.code).forEach(function(z){
+    var b = knopf('', z, function(){
+      b.disabled = true; eingabe.push(z); zeigen();
       if(eingabe.length === 5){
-        if(eingabe.join('') === r.code.join('')) setTimeout(geschafft, 600);
+        if(eingabe.join('') === r.code.join('')) setTimeout(tuerAuf, 500);
         else {meld.textContent = 'Der Code passt noch nicht. Versuch es noch einmal.'; meld.style.color = 'var(--red)'; sprich('Der Code passt noch nicht. Versuch es noch einmal.');
           setTimeout(function(){eingabe = []; zeigen(); alle.forEach(function(x){x.disabled = false;});}, 1500);}
       }
     });
     alle.push(b); kach.appendChild(b);
   });
-  box.appendChild(kach); box.appendChild(meld); app.appendChild(box);
-  sprich(LEVEL === 3 ? 'Tippe die Buchstaben in der richtigen Reihenfolge an.' : 'Tippe die Bilder in der richtigen Reihenfolge an.');
+  box.appendChild(kach); box.appendChild(meld); zurueckKnopf(box);
+  alle[0].focus();
+  sprich(satz);
+}
+function tuerAuf(){
+  schliessen();
+  var t = szeneEl.querySelector('.tuerG');
+  t._schloss.textContent = '🔓'; t.classList.add('offen');
+  hinweis('Die Tür geht auf.', 'var(--green)');
+  setTimeout(geschafft, 1700);
 }
 
 /* Raum geschafft */
@@ -390,15 +552,15 @@ function konfetti(){
 function geschafft(){
   raum++; leeren(); konfetti();
   var box = el('div', 'box grau mitte');
-  box.appendChild(el('div', 'tuer', '🚪'));
   if(raum < RAEUME.length){
+    box.appendChild(el('p', 'riesig', '🚪'));
     box.appendChild(el('h2', '', 'Die Tür ist offen.'));
     box.appendChild(el('p', '', 'Als Nächstes: ' + RAEUME[raum].emoji + ' ' + RAEUME[raum].titel));
     app.appendChild(box);
     var u = el('div', 'unten'), w = knopf('gross', 'Weiter', raumStart); u.appendChild(w); app.appendChild(u); w.focus();
     sprich('Die Tür ist offen.');
   } else {
-    box.firstChild.textContent = RAEUME.map(function(r){return r.emoji;}).join(' ');
+    box.appendChild(el('p', 'riesig', RAEUME.map(function(r){return r.emoji;}).join(' ')));
     box.appendChild(el('h2', '', 'Geschafft. Du hast alle Räume geöffnet.'));
     box.appendChild(el('p', '', 'Der Einkauf für das Klassenfrühstück ist fertig.'));
     app.appendChild(box);
@@ -407,6 +569,7 @@ function geschafft(){
   }
 }
 
+document.addEventListener('keydown', function(e){if(e.key === 'Escape') schliessen();});
 document.getElementById('ton').addEventListener('click', function(){ton = !ton; tonText(); if(!ton){try{speechSynthesis.cancel();}catch(e){}}});
 document.getElementById('pauseBtn').addEventListener('click', function(){document.getElementById('pause').classList.add('an'); try{speechSynthesis.cancel();}catch(e){} document.getElementById('weiterPause').focus();});
 document.getElementById('weiterPause').addEventListener('click', function(){document.getElementById('pause').classList.remove('an');});
